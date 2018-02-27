@@ -10,24 +10,24 @@ defmodule SocialTracker.TCPServer do
 
   def init(:ok) do
     {:ok, tcp} = :gen_tcp.listen(@port, [:binary, active: :once, reuseaddr: true])
-    Process.send_after(self(), :accept, 0)
     {:ok, %{server: tcp}}
   end
 
   def handle_info(:accept, state) do
     {:ok, acc} = :gen_tcp.accept(state.server)
-    :inet.setopts(acc, active: :once)
     {:noreply, state}
   end
 
   def handle_info({:tcp, s, data}, state) do
+    Logger.info "Data: #{inspect data}"
     Task.Supervisor.start_child(SocialTracker.TCPRequests, fn -> data |> dispatch() end)
-    Process.send_after(self(), :accept, 0)
+    :inet.setopts(s, active: :once)
     {:noreply, state}
   end
 
   def handle_info({:tcp_closed, client}, state) do
     Logger.debug "Client Closed connection"
+    Process.send_after(self(), :accept, 0)
     :gen_tcp.close(client)
     {:noreply, state}
   end
