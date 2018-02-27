@@ -15,14 +15,15 @@ defmodule SocialTracker.Mixfile do
   def application do
     [
       mod: {SocialTracker.Application, []},
-      extra_applications: [:logger]
+      extra_applications: [:logger, :poison]
     ]
   end
 
   def deps do
     [
       {:cowboy, "~> 1.1"},
-      {:plug, "~> 1.4"}
+      {:plug, "~> 1.4"},
+      {:poison, "~> 3.1"}
     ]
   end
 

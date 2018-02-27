@@ -31,8 +31,9 @@ defmodule SocialTracker.TCPServer do
   end
 
   def dispatch(data) do
+    data = Poison.decode!(data)
+    Logger.info "Got Data: #{inspect data}"
     Registry.dispatch(SocialTracker.Registry, SocialTracker.Data, fn entries ->
-      Logger.info "Got Data: #{inspect data}"
       for {pid, _} <- entries, do: send(pid, {:broadcast, data})
     end)
   end

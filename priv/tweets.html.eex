@@ -34,7 +34,7 @@ body {
 var ws = null;
 
 function open(){
-  ws = new WebSocket("ws://"+window.location.host+"/ws");
+  ws = new WebSocket("ws://"+window.location.host+"/ws?filters=authors_w60_s10,test");
   ws.onopen = function(evt) {};
   ws.onclose = function(evt) {
       open();
