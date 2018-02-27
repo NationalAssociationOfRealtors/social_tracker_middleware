@@ -8,7 +8,7 @@ defmodule SocialTracker.WebSocketHandler do
   end
 
   def websocket_init(_type, req, _opts) do
-    Registry.register(SocialTracker.Tweets, SocialTracker.Tweet, [])
+    Registry.register(SocialTracker.Registry, SocialTracker.Data, [])
     {:ok, req, %{}, @timeout}
   end
 
@@ -20,8 +20,8 @@ defmodule SocialTracker.WebSocketHandler do
     {:shutdown, req, state}
   end
 
-  def websocket_info({:broadcast, tweet}, req, state) do
-    {:reply, {:text, tweet |> Poison.encode!}, req, state}
+  def websocket_info({:broadcast, data}, req, state) do
+    {:reply, {:text, data}, req, state}
   end
 
   def websocket_info(message, req, state) do

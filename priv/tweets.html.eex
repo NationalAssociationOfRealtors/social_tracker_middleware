@@ -55,7 +55,7 @@ function open(){
 function display(tweet){
   console.log(tweet);
   var t = document.createElement("div");
-  var text = document.createTextNode(tweet.text);
+  var text = document.createTextNode(tweet.data.text);
   t.appendChild(text);
   t.className = "tweet";
   var tweets = document.getElementById("tweets");

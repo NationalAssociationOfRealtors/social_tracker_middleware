@@ -8,14 +8,7 @@ use Mix.Config
 config :logger, level: :info
 
 config :social_tracker, http_port: 8080
-config :social_tracker, twitter_filter: "#TuesdayThoughts"
-
-config :twittex,
-  token: System.get_env("TWITTER_TOKEN"),
-  token_secret: System.get_env("TWITTER_SECRET"),
-  consumer_key: System.get_env("TWITTER_CONSUMER_TOKEN"),
-  consumer_secret: System.get_env("TWITTER_CONSUMER_SECRET")
-
+config :social_tracker, tcp_port: 8307
 # Import target specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 # Uncomment to use target specific configurations
