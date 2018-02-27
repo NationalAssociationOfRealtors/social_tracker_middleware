@@ -10,6 +10,7 @@ defmodule SocialTracker.TCPServer do
 
   def init(:ok) do
     {:ok, tcp} = :gen_tcp.listen(@port, [:binary, active: :once, reuseaddr: true])
+    Process.send_after(self(), :accept, 0)
     {:ok, %{server: tcp}}
   end
 
