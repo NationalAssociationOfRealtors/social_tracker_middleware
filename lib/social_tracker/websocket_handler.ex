@@ -9,9 +9,11 @@ defmodule SocialTracker.WebSocketHandler do
 
   def websocket_init(_type, req, _opts) do
     {val, req2} = :cowboy_req.qs_val("filters", req)
-    Logger.info "#{inspect val}"
     filters = val |> String.split(",") |> Enum.map(&String.trim(&1))
-    Registry.register(SocialTracker.Registry, SocialTracker.Data, [])
+    Logger.info "Subscribing to: #{inspect filters}"
+    filters |> Enum.each(fn filter ->
+      Registry.register(SocialTracker.Registry, filter, [])
+    end)
     {:ok, req2, %{filters: filters}, @timeout}
   end
 
@@ -23,12 +25,9 @@ defmodule SocialTracker.WebSocketHandler do
     {:shutdown, req, state}
   end
 
-  def websocket_info({:broadcast, %{"type" => type} = data}, req, %{filters: filters} = state) do
-    case type in filters do
-      true -> {:reply, {:text, Poison.encode!(data)}, req, state}
-      false -> {:ok, req, state}
-    end
-
+  def websocket_info({:broadcast, data}, req, state) do
+    Logger.debug "Got Data #{inspect data}, filters: #{inspect state.filters}"
+    {:reply, {:text, Poison.encode!(data)}, req, state}
   end
 
   def websocket_info(message, req, state) do

@@ -26,14 +26,16 @@ defmodule SocialTracker.TCPServer do
     {:noreply, state}
   end
 
-  def handle_info({:tcp_closed, _listener}, state) do
+  def handle_info({:tcp_closed, client}, state) do
+    Logger.debug "Client Closed connection"
+    :gen_tcp.close(client)
     {:noreply, state}
   end
 
   def dispatch(data) do
     data = Poison.decode!(data)
-    Logger.info "Got Data: #{inspect data}"
-    Registry.dispatch(SocialTracker.Registry, SocialTracker.Data, fn entries ->
+    type = Map.get(data, "type")
+    Registry.dispatch(SocialTracker.Registry, type, fn entries ->
       for {pid, _} <- entries, do: send(pid, {:broadcast, data})
     end)
   end
