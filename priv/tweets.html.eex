@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CO2</title>
+<title>Social Tracker</title>
 <head>
 <style>
 html {
@@ -15,7 +15,7 @@ body {
     margin-top: 40px;
     margin-bottom: 4em;
     position:relative;
-    background-color: rgb(10,10,10);
+    background-color: rgb(100,100,100);
 }
 #body {
     position: left;
@@ -52,30 +52,21 @@ function open(){
   }, 21000)
 }
 
-function display(evnt){
-  var co2 = document.getElementById("co2");
-  var hum = document.getElementById("humidity");
-  co2.innerHTML = evnt.co2 + " ppm";
-  hum.innerHTML = evnt.humidity + " %";
-  var v = Math.min(1699, evnt.co2);
-  var color = rgbToHex(Math.round(v*0.15), 50, 255);
-  document.body.style.backgroundColor = color;
+function display(tweet){
+  console.log(tweet);
+  var t = document.createElement("div");
+  var text = document.createTextNode(tweet.text);
+  t.appendChild(text);
+  t.className = "tweet";
+  var tweets = document.getElementById("tweets");
+  tweets.appendChild(t);
 }
 
-function componentToHex(c) {
-  var hex = c.toString(16);
-  return hex.length == 1 ? "0" + hex : hex;
-}
-
-function rgbToHex(r, g, b) {
-  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-}
 </script>
 
 </head>
 <body>
-<div id="co2" class="display">400 ppm</div>
-<div id="humidity" class="display">51%</div>
+<div id="tweets"></div>
 <script type="text/javascript">
 open();
 </script>

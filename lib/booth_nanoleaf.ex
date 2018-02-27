@@ -1,3 +1,0 @@
-defmodule BoothNanoleaf do
-  
-end
