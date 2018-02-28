@@ -21,9 +21,10 @@ defmodule SocialTracker.TCPServer do
   end
 
   def accept(socket, pid) do
-    Logger.info "PID: #{inspect pid}"
+    Logger.info "Accepting for PID: #{inspect pid}"
     {:ok, acc} = :gen_tcp.accept(socket)
     :gen_tcp.controlling_process(acc, pid)
+    accept(socket, pid)
   end
 
   def handle_info({:tcp, s, data}, state) do
