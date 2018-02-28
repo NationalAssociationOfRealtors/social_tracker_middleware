@@ -3,6 +3,7 @@ defmodule SocialTracker.TCPServer do
   require Logger
 
   @port Application.get_env(:social_tracker, :tcp_port, 8307)
+  @num_acceptors Application.get_env(:social_tracker, :num_acceptors, 5)
 
   def start_link() do
     GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
@@ -10,7 +11,7 @@ defmodule SocialTracker.TCPServer do
 
   def init(:ok) do
     {:ok, socket} = :gen_tcp.listen(@port, [:binary, active: :once, reuseaddr: true])
-    start_servers(5, socket)
+    start_servers(@num_acceptors, socket)
     {:ok, %{}}
   end
 

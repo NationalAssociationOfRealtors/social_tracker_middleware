@@ -9,6 +9,7 @@ config :logger, level: :info
 
 config :social_tracker, http_port: 8080
 config :social_tracker, tcp_port: 8307
+config :social_tracker, num_acceptors: System.get_env("NUM_ACCEPTORS") || 5
 # Import target specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 # Uncomment to use target specific configurations
