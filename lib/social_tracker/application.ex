@@ -9,8 +9,12 @@ defmodule SocialTracker.Application do
     children = [
       supervisor(Registry, [:duplicate, SocialTracker.Registry, []]),
       supervisor(Task.Supervisor, [[name: SocialTracker.TCPRequests]]),
+      supervisor(Task.Supervisor, [[name: SocialTracker.TCPPool]], restart: :permanent, id: TCPPool),
       worker(SocialTracker.TCPServer, []),
       Plug.Adapters.Cowboy.child_spec(:http, SocialTracker.HTTPRouter, [], [port: @http_port, dispatch: dispatch()]),
+      #worker(SocialTracker.Client, [], id: :client1),
+      #worker(SocialTracker.Client, [], id: :client2),
+      #worker(SocialTracker.Client, [], id: :client3),
     ]
 
     opts = [strategy: :one_for_one, name: SocialTracker.Supervisor]
