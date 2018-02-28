@@ -4,6 +4,6 @@ This is a system to provide a websocket interface to Kafka Stream aggregation pi
 
 The websocket connection can subscribe to different message types by passing the `?filters={type1},{type2},etc` query string on initial connection.
 
-Before running `docker-compose build` make sure to set your variables in `default.env` and `docker.env` match and run `$ source default.env`
+Before running `docker-compose build` make sure to set the variables in `default.env` and `docker.env` match and run `$ source default.env`
 
 In your deployment the environment variable file names will probably vary, the ones here are given only as examples for configuration.
