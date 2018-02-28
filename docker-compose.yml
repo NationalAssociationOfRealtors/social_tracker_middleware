@@ -1,0 +1,18 @@
+version: '2.1'
+services:
+  social_tracker:
+    build: .
+    logging:
+      driver: syslog
+    expose:
+      - "${TCP_PORT}"
+    ports:
+      - "${HTTP_HOST_PORT}:${HTTP_PORT}"
+    env_file:
+      - docker.env
+  client:
+    build: /app/stt
+    logging:
+      driver: syslog
+    depends_on:
+      - social_tracker

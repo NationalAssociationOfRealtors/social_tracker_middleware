@@ -2,7 +2,7 @@ defmodule SocialTracker.Application do
   use Application
   require Logger
 
-  @http_port Application.get_env(:social_tracker, :http_port, 8080)
+  @http_port Application.get_env(:social_tracker, :http_port, "8080") |> String.to_integer()
 
   def start(_type, _args) do
     import Supervisor.Spec, warn: false

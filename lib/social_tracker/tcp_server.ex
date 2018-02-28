@@ -2,8 +2,8 @@ defmodule SocialTracker.TCPServer do
   use GenServer
   require Logger
 
-  @port Application.get_env(:social_tracker, :tcp_port, 8307)
-  @num_acceptors Application.get_env(:social_tracker, :num_acceptors, 5)
+  @port Application.get_env(:social_tracker, :tcp_port, "8307") |> String.to_integer()
+  @num_acceptors Application.get_env(:social_tracker, :num_acceptors, "5") |> String.to_integer()
 
   def start_link() do
     GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
